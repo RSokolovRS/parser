@@ -1,8 +1,9 @@
 import requests
 import random
 
-
-with open('proxy_list.txt', 'r') as file:
-    text = random.choice(file.readline())
-    print(text)
+def random_proxy_ip(file):
+    """ метод возвращающий рандомный IP """
+    with open('proxy_list.txt', 'r') as file:
+        ip = random.choice(file.read().split())
+        return ip
 

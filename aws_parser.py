@@ -1,5 +1,10 @@
 import os
+
+from bs4 import BeautifulSoup
 from dotenv import load_dotenv, find_dotenv
+import requests
+from requests_ip_rotator import ApiGateway
+from randomheader import RandomHeader
 
 
 import httpx
@@ -10,18 +15,40 @@ load_dotenv(find_dotenv())
 
 KEY = os.getenv('ACCESS_KEY')
 SECRET_KEY = os.getenv('SECRET_ACCESS_KEY')
+rh = RandomHeader()
 
+print(rh.header())
 
 BASE_URL = 'https://www.wildberries.ru/'
-URL = "https://www.wildberries.ru/catalog/krasota/nogti/nakladnye-nogti-i-dekor?page=1"
+URL = "https://www.wildberries.ru/catalog/krasota/nogti/nakladnye-nogti-i-dekor?page="
 
-with ApiGatewayTransport(BASE_URL, access_key_id=KEY, access_key_secret=SECRET_KEY) as g:
-    mounts = {
-        BASE_URL: g
-    }
-    with httpx.Client(mounts=mounts) as client:
-        response = client.get(URL)
-        print(response.status_code)
+with ApiGateway(BASE_URL, access_key_id=KEY, access_key_secret=SECRET_KEY) as g:
+    session = requests.Session()
+    session.headers.update(rh.header())
+    session.mount(BASE_URL, g)
+
+
+for item in range(10):
+    result = requests.get(BASE_URL + str(item))
+    try:
+        result.raise_for_status()
+    except Exception as error:
+        print(error)
+        break
+    else:
+        print(result.status_code)
+
+
+
+
+
+
+
+# with ApiGatewayTransport(BASE_URL, access_key_id=KEY, access_key_secret=SECRET_KEY) as g:
+#     mounts = {BASE_URL: g}
+#     with httpx.Client(mounts=mounts) as client:
+#         response = client.get(URL)
+#         print(response.status_code)
 
 
 

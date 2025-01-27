@@ -7,24 +7,24 @@ from requests_ip_rotator import ApiGateway
 from randomheader import RandomHeader
 
 
-import httpx
-import asyncio
-from httpx_ip_rotator import ApiGatewayTransport
+# import httpx
+# import asyncio
+# from httpx_ip_rotator import ApiGatewayTransport
 
 load_dotenv(find_dotenv())
 
 KEY = os.getenv('ACCESS_KEY')
 SECRET_KEY = os.getenv('SECRET_ACCESS_KEY')
-rh = RandomHeader()
+random_headers = RandomHeader()
 
-print(rh.header())
+random_headers = random_headers.header()
 
 BASE_URL = 'https://www.wildberries.ru/'
 URL = "https://www.wildberries.ru/catalog/krasota/nogti/nakladnye-nogti-i-dekor?page="
 
 with ApiGateway(BASE_URL, access_key_id=KEY, access_key_secret=SECRET_KEY) as g:
     session = requests.Session()
-    session.headers.update(rh.header())
+    session.headers.update(random_headers)
     session.mount(BASE_URL, g)
 
 

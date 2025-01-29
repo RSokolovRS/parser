@@ -16,8 +16,9 @@ random_headers = random_headers.header()
 
 BASE_URL = 'https://www.wildberries.ru/'
 
-URL = "https://catalog.wb.ru/catalog/beauty44/v2/catalog?ab_testing=false&appType=1&cat=8956&curr=rub&dest=-1255987&hide_dtype=10&lang=ru&sort=popular&spp=30"
+URL = "https://catalog.wb.ru/catalog/beauty44/v2/catalog?ab_testing=false&appType=1&cat=8956&curr=rub&dest=-1255987&hide_dtype=10&lang=ru&sort=popular&spp=30&page="
 TOTAL_URL = "https://catalog.wb.ru/catalog/beauty44/v2/catalog?ab_testing=false&appType=1&cat=8956&curr=rub&dest=-1255987&hide_dtype=10&lang=ru&page=1&sort=popular&spp=30"
+
 
 
 gateway = ApiGateway(BASE_URL, access_key_id=KEY, access_key_secret=SECRET_KEY )
@@ -27,13 +28,34 @@ session = requests.Session()
 
 
 
-response = session.get(TOTAL_URL, headers=random_headers)
+response = session.get(TOTAL_URL)
 response_json = response.json()
 total_pages = response_json['data']['total']
-print(total_pages)
+print(response.status_code)
+result = total_pages / 100
+print(result)
+
+
 
 def parser_wb(URL):
-    pass
+    for item in range(total_pages):
+        response = session.get(URL+str(item), headers=random_headers)
+        list_seller = response['data']['products'][0]
+        # print(list_seller)
+        
+    return list_seller['supplierId']
+
+print(parser_wb(URL))
+# if response.ok:
+#     try:
+        
+#     except Exception as error:
+#         print(error)
+        
+# else:
+#     print(response.status_code)
+
+
 
 gateway.shutdown()
 

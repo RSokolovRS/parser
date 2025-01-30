@@ -12,3 +12,5 @@ randomheader==0.4
 httpx-ip-rotator==0.1.4
 python-dotenv==1.0.1
 requests-ip-rotator==1.0.14
+pandas==2.2.3
+

@@ -19,7 +19,7 @@ random_headers = RandomHeader()
 
 random_headers = random_headers.header()
 
-BASE_URL = 'https://www.wildberries.ru/'
+BASE_URL = 'httdeepps://www.wildberries.ru/'
 URL = "https://www.wildberries.ru/catalog/krasota/nogti/nakladnye-nogti-i-dekor?page="
 
 
